@@ -52,7 +52,7 @@ func main() {
 	// --- 2. 自動排程 Goroutine (每 5 分鐘) ---
 	go func() {
 		// 設定計時器：5 分鐘
-		ticker := time.NewTicker(5 * time.Minute)
+		ticker := time.NewTicker(3 * time.Minute)
 		defer ticker.Stop()
 
 		for range ticker.C {
@@ -85,6 +85,12 @@ func main() {
 		case "#u":
 			fmt.Println(">> [手動發送] Ctrl+U 訊號")
 			dataToSend = []byte{'\x15', '\r', '\n'}
+
+		case "quit":
+			fmt.Println(">> [手動發送] quit 指令")
+			sendChan <- dataToSend
+			conn.Close()
+			os.Exit(0)
 		default:
 			// 正常文字，補上換行
 			dataToSend = []byte(inputText + "\r\n")
