@@ -68,6 +68,7 @@ func main() {
 		_, err := io.Copy(os.Stdout, decoderReader)
 		if err != nil {
 			fmt.Println("\n\n[連線已中斷]")
+			conn.Close()
 			os.Exit(0)
 		}
 	}()
@@ -86,9 +87,8 @@ func main() {
 			fmt.Println(">> [手動發送] Ctrl+U 訊號")
 			dataToSend = []byte{'\x15', '\r', '\n'}
 
-		case "quit":
-			fmt.Println(">> [手動發送] quit 指令")
-			sendChan <- dataToSend
+		case "#close":
+			fmt.Println("手動關閉socket連線..")
 			conn.Close()
 			os.Exit(0)
 		default:
