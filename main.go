@@ -58,7 +58,7 @@ func main() {
 		for range ticker.C {
 			// 時間到！把指令丟進通道
 			// fmt.Println(">> [自動發送] l 指令...") // 如果覺得太吵可以把這行註解掉
-			sendChan <- []byte("l\r\n")
+			sendChan <- []byte("hp\r\n")
 		}
 	}()
 
